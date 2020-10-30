@@ -4,7 +4,7 @@ def mono_literal(clause, clause_lenght):
     for i in range(len(clause_lenght)):
 
         if clause_lenght[i] == 1:
-            return clause[i]
+            return next(iter(clause[i]))
 
     return "No unitary clause"
 
@@ -15,9 +15,9 @@ def pure_literal(literal):
     for i in range(int(len(literal) / 2)):
 
         if len(literal[2 * i]) == 0 and len(literal[2 * i + 1]) != 0:
-            return literal[2 * i + 1]
+            return 2 * i + 1
         elif len(literal[2 * i]) != 0 and len(literal[2 * i + 1]) == 0:
-            return literal([2 * i])
+            return 2 * i
         else:
             continue
 

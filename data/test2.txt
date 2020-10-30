@@ -1,0 +1,5 @@
+a b c
+
+a not(a)
+c not(c)
+b not(b)

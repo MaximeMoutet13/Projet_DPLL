@@ -5,4 +5,3 @@ not(c) not(e)
 not(a) a d
 not(b) d e
 c
-

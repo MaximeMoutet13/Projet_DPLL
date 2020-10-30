@@ -1,7 +1,3 @@
-file_path = "data/test.txt"
-file = open(file_path, "r")
-
-
 def load(f):
     """Load the file f and put the data in dictionaries
 
@@ -19,7 +15,7 @@ def load(f):
         literal["not("+ lit + ")"] = [2 * i + 1, []]
 
     clause = dict()
-    for i in range(len(txt[2:]) - 1):
+    for i in range(len(txt[2:])):
         clause[i] = set()
 
     for i in range(len(txt[2:])):
