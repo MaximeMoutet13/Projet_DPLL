@@ -1,7 +1,3 @@
-##########################
-#test des structures
-##########################
-
 file_path = "data/test.txt"
 file = open(file_path, "r")
 
