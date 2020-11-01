@@ -35,8 +35,8 @@ class TestLoad(unittest.TestCase):
         with open(file_path, "r") as f:
             literal, clause = load(f)
 
-        literal_expected = {0: {0}, 1: set(), 2: {1}, 3: set()}
-        clause_expected = {0: {0}, 1: {2}}
+        literal_expected = {0: {0}, 1: {1}}
+        clause_expected = {0: {0}, 1: {1}}
 
         self.assertEqual(literal, literal_expected)
         self.assertEqual(clause, clause_expected)

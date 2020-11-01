@@ -43,17 +43,6 @@ class TestMonoLiteral(unittest.TestCase):
 
 
 class TestPureLiteral(unittest.TestCase):
-    def test_only_pure(self):
-        file_path = "../data/test3.txt"
-
-        with open(file_path, "r") as f:
-            literal, clause = load(f)
-
-        lit = pure_literal(literal)
-        lit_expected = 0
-
-        self.assertEqual(lit, lit_expected)
-
     def test_no_pure(self):
         file_path = "../data/test2.txt"
 

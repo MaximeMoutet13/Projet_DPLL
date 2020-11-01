@@ -15,10 +15,10 @@ class TestSimplifyClause(unittest.TestCase):
         lit = literal_choice(clause, clause_lenght, literal, literal_state)
         c, cs, cl, l = simplify_clause(clause, clause_state, clause_lenght, literal, lit)
 
-        self.assertTrue(c == {1: {2}})
+        self.assertTrue(c == dict())
         self.assertTrue(cs == [1, 0])
-        self.assertTrue(cl == [0, 1])
-        self.assertTrue(l == {0: set(), 1: set(), 2: {1}, 3: set()})
+        self.assertTrue(cl == [0, 0])
+        self.assertTrue(l == {0: set(), 1: set()})
 
     def test_one_simplification2(self):
         file_path = "../data/test2.txt"

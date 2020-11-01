@@ -9,7 +9,7 @@ def load(f):
 
     txt = [line.split() for line in f]
 
-    literal = dict() # this is a step to easily construct clause
+    literal = dict()  # this is a step to easily construct clause
     for i, lit in enumerate(txt[0]):
         literal[lit] = [2 * i, []]
         literal["not("+ lit + ")"] = [2 * i + 1, []]

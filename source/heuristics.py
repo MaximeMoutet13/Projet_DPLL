@@ -4,7 +4,9 @@ def mono_literal(clause, clause_lenght):
     for i in range(len(clause_lenght)):
 
         if clause_lenght[i] == 1:
-            return next(iter(clause[i]))
+            lit = clause[i].pop()
+            clause[i].add(lit)
+            return lit
 
     return "No unitary clause"
 
@@ -37,4 +39,9 @@ def literal_choice(clause, clause_lenght, literal, literal_state):
 
     for i, lit in enumerate(literal_state):
         if lit == 0:
-            return i
+            if i % 2 == 0 and literal_state[i + 1] == 0:
+                return i
+            elif i % 2 == 1 and literal_state[i - 1] == 0:
+                return i
+            else:
+                continue
