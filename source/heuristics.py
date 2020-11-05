@@ -4,21 +4,20 @@ def mono_literal(clause, clause_lenght):
     for i in range(len(clause_lenght)):
 
         if clause_lenght[i] == 1:
-            lit = clause[i].pop()
-            clause[i].add(lit)
+            lit = clause[i][0]
             return lit
 
     return "No unitary clause"
 
 
-def pure_literal(literal):
+def pure_literal(literal, literal_state):
     """Pure literal heuristic
     """
     for i in range(int(len(literal) / 2)):
 
-        if len(literal[2 * i]) == 0 and len(literal[2 * i + 1]) != 0:
+        if len(literal[2 * i]) == 0 and len(literal[2 * i + 1]) != 0 and literal_state[2 * i + 1] == 0:
             return 2 * i + 1
-        elif len(literal[2 * i]) != 0 and len(literal[2 * i + 1]) == 0:
+        elif len(literal[2 * i]) != 0 and len(literal[2 * i + 1]) == 0 and literal_state[2 * i] == 0:
             return 2 * i
         else:
             continue
@@ -33,7 +32,7 @@ def literal_choice(clause, clause_lenght, literal, literal_state):
     if isinstance(lit, int):
         return lit
 
-    lit = pure_literal(literal)
+    lit = pure_literal(literal, literal_state)
     if isinstance(lit, int):
         return lit
 

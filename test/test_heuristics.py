@@ -49,7 +49,7 @@ class TestPureLiteral(unittest.TestCase):
         with open(file_path, "r") as f:
             literal, clause = load(f)
 
-        lit = pure_literal(literal)
+        lit = pure_literal(literal, literal_state=[0 for i in range(len(literal))])
         lit_expected = "No pure literal"
 
         self.assertEqual(lit, lit_expected)
@@ -60,7 +60,7 @@ class TestPureLiteral(unittest.TestCase):
         with open(file_path, "r") as f:
             literal, clause = load(f)
 
-        lit = pure_literal(literal)
+        lit = pure_literal(literal, literal_state=[0 for i in range(len(literal))])
         lit_expected = 6
 
         self.assertEqual(lit, lit_expected)

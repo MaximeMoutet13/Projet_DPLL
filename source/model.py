@@ -12,22 +12,20 @@ def load(f):
     literal = dict()  # this is a step to easily construct clause
     for i, lit in enumerate(txt[0]):
         literal[lit] = [2 * i, []]
-        literal["not("+ lit + ")"] = [2 * i + 1, []]
+        literal["not(" + lit + ")"] = [2 * i + 1, []]
 
-    clause = dict()
-    for i in range(len(txt[2:])):
-        clause[i] = set()
+    clause = [[] for i in range(len(txt[2:]))]
 
     for i in range(len(txt[2:])):
         for j in txt[2 + i]:
-                clause[i].add(literal[j][0])
-                literal[j][1].append(i)
+            clause[i].append(literal[j][0])
+            literal[j][1].append(i)
 
-    literal_without_str = dict()
+    literal_list = [[] for i in range(len(2 * txt[0]))]
     for key, values in literal.items():
-        literal_without_str[values[0]] = set(values[1])
+        literal_list[values[0]] = values[1]
 
-    return literal_without_str, clause
+    return literal_list, clause
 
 
 def initialisation(literal, clause):
