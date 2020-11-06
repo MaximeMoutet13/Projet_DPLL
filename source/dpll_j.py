@@ -31,6 +31,7 @@ def dpll(heuristic_choice, clauses, literals, clauses_lenght=None, literals_stat
     """Induction"""
     l = mono_choice(clauses, clauses_lenght, literals, literals_state)
     if l != None:
+        """Mono-litteral or monotone litteral"""
         literals_state = update_literal_state(literals_state, l)
         running_literals = [l] + running_literals
         clauses_state, clauses_lenght = update_clause(clauses, clauses_state, clauses_lenght, l)
@@ -40,6 +41,7 @@ def dpll(heuristic_choice, clauses, literals, clauses_lenght=None, literals_stat
             return dpll(heuristic_choice, clauses, literals, clauses_lenght, literals_state, clauses_state, running_literals)
 
     else:
+        """Heuristic choice of a litteral"""
         l_1 = heuristic_choice(clauses, clauses_lenght, literals, literals_state)
         literals_state_1 = update_literal_state(literals_state, l_1)
         running_literals_1 = [l_1] + running_literals
