@@ -5,3 +5,5 @@ __date__ = '02/11/20'
 
 "Keur sur maxime"
 # c un bon pote mais pas trop quand meme
+
+print("1")
