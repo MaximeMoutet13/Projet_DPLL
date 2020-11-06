@@ -1,46 +1,47 @@
-def mono_literal(clause, clause_lenght):
-    """ Mono-literal heuristic
-    """
-    for i in range(len(clause_lenght)):
+def first_satisfy(literal, literal_state, clause, clause_state):
+    lit_occ = [[0, i] for i in range(literal)]
 
-        if clause_lenght[i] == 1:
-            lit = clause[i][0]
+    for i in range(clause):
+        if clause_state[i] == 0:
+
+            for lit in clause[i]:
+                if literal_state[lit] == 0:
+                    lit_occ[lit][0] += 1
+
+    lit_occ.sort()
+    for j in range(len(literal) - 1, -1, -1):
+        lit = lit_occ[j][1]
+
+        if literal_state[j] == 0:
             return lit
 
-    return "No unitary clause"
+    return "No first satisfy"
 
 
-def pure_literal(literal, literal_state):
-    """Pure literal heuristic
-    """
-    for i in range(int(len(literal) / 2)):
+def first_fail(literal, literal_state, clause, clause_state):
+    lit_occ = [[0, i] for i in range(literal)]
 
-        if len(literal[2 * i]) == 0 and len(literal[2 * i + 1]) != 0 and literal_state[2 * i + 1] == 0:
-            return 2 * i + 1
-        elif len(literal[2 * i]) != 0 and len(literal[2 * i + 1]) == 0 and literal_state[2 * i] == 0:
-            return 2 * i
-        else:
-            continue
+    for i in range(clause):
+        if clause_state[i] == 0:
 
-    return "No pure literal"
+            for lit in clause[i]:
+                if literal_state[lit] == 0:
+                    lit_occ[lit][0] += 1
+
+    lit_occ.sort()
+    for j in range(len(literal) - 1, -1, -1):
+        lit = lit_occ[j][1]
+
+        if lit % 2 and literal_state[lit + 1] == 0:
+            return lit + 1
+
+        elif lit % 2 == 1 and literal_state[lit - 1] == 0:
+            return lit - 1
+
+    return "No first fail"
 
 
-def literal_choice(clause, clause_lenght, literal, literal_state):
-    """Choose the best literal to use in DPLL step. Assume that there is still non affected literals
-    """
-    lit = mono_literal(clause, clause_lenght)
-    if isinstance(lit, int):
-        return lit
-
-    lit = pure_literal(literal, literal_state)
-    if isinstance(lit, int):
-        return lit
-
-    for i, lit in enumerate(literal_state):
-        if lit == 0:
-            if i % 2 == 0 and literal_state[i + 1] == 0:
-                return i
-            elif i % 2 == 1 and literal_state[i - 1] == 0:
-                return i
-            else:
-                continue
+def no_heuristic(literal, literal_state):
+    for i in range(len(literal)):
+        if literal_state[i] == 0:
+            return i
