@@ -41,7 +41,7 @@ def first_fail(literal, literal_state, clause, clause_state):
     return "No first fail"
 
 
-def no_heuristic(literal, literal_state):
+def no_heuristic(literal, literal_state, clause, clause_state):
     for i in range(len(literal)):
         if literal_state[i] == 0:
             return i
