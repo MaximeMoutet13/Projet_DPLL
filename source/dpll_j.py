@@ -29,13 +29,13 @@ def dpll(heuristic_choice, clauses, literals, clauses_lenght=None, literals_stat
         return clauses_state
 
     """Induction"""
-    l = mono_choice(clauses, clauses_lenght, literals, literals_state)
+    l = literal_choice(clauses, clauses_lenght, literals, literals_state)
     if l != None:
         """Mono-litteral or monotone litteral"""
         literals_state = update_literal_state(literals_state, l)
         running_literals = [l] + running_literals
         clauses_state, clauses_lenght = update_clause(clauses, clauses_state, clauses_lenght, l)
-        if (clause == 0 for clause in clauses_state):
+        if (state == 0 for state in clauses_state):
             models += [i for i in dpll(heuristic_choice, clauses, literals, clauses_lenght, literals_state, clauses_state, running_literals)]
         else:
             return dpll(heuristic_choice, clauses, literals, clauses_lenght, literals_state, clauses_state, running_literals)
@@ -58,3 +58,8 @@ def dpll(heuristic_choice, clauses, literals, clauses_lenght=None, literals_stat
             models += [i for i in dpll(heuristic_choice, clauses, literals, clauses_lenght_2, literals_state_2, clauses_state_2, running_literals_2)]
         else:
             return dpll(heuristic_choice, clauses, literals, clauses_lenght, literals_state, clauses_state, running_literals)
+
+    return models
+
+
+dpll(literal_choice, f_clauses, f_literals)
