@@ -11,14 +11,14 @@ def mono_literal(literal_state, clause, clause_lenght):
 
 
 def pure_literal(literal, literal_state, clause, clause_state):
-    lit_occurencies = [0 for i in range(literal)]
+    lit_occurencies = [0 for i in range(len(literal))]
 
-    for i in range(clause):
+    for i in range(len(clause)):
         if clause_state[i] == 0:
 
             for lit in clause[i]:
                 if literal_state[lit] == 0:
-                    lit_occurencies[lit][0] += 1
+                    lit_occurencies[lit] += 1
 
     for i in range(int(len(literal) / 2)):
 

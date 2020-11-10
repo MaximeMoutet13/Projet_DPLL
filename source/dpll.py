@@ -1,43 +1,96 @@
-from source.dpll_functions import update_clause, update_literal_state, is_satisfied, is_unsatisfactory
+from source.dpll_functions import update_clause_bis, update_literal_state_bis, is_satisfied, is_unsatisfactory
 from source.model import load, initialisation
-from source.heuristics import literal_choice
+from source.first_literal_choice import mono_choice
+from source.heuristics import *
+
+from copy import copy
+
+def dpll_backtrack(literal_state, running_literal):
+    if len(running_literal) == 0:
+        return True, None
+
+    lit = running_literal.pop()
+
+    if lit % 2 == 0:
+        if literal_state[lit + 1] == 0:
+            return True, lit + 1
+    else:
+        if literal_state[lit - 1] == 0:
+            return True, lit - 1
+
+    return False, None
 
 
-def dpll(clause, clause_lenght, literal_state, clause_state, running_literal, literal, find_all_solutions=False):
-    lit = literal_choice(clause, clause_lenght, literal, literal_state)
-    running_literal.append([lit, True])
+def dpll_backtracj_bis(literal, clause, running_literal):
+    literal_state, clause_state, clause_lenght, useless = initialisation(literal, clause)
+    for i in range(len(running_literal)):
+        lit = running_literal[i]
+        update_literal_state_bis(literal_state, lit)
+        update_clause_bis(clause, clause_state, clause_lenght, lit)
 
-    stop_algorithm = False
+    print(literal_state)
 
-    while stop_algorithm != True:
-        clause_state_1, clause_lenght_1 = update_clause(clause, clause_state, clause_lenght, running_literal[-1][0])
 
-        literal_state_1 = update_literal_state(literal_state, running_literal[-1][0])
+def dpll(literal, clause, heuristic, find_all_solutions=False):
+    if len(clause) == 0:
+        return True
 
-        if is_satisfied(clause_lenght_1, clause_state_1):
-            if find_all_solutions is False:
-                return running_literal
+    elif [] in clause:
+        return False
 
-        elif is_unsatisfactory(clause_lenght_1, clause_state_1):
+    else:
+        models = []
 
-            lit, v = running_literal.pop()
-            if lit % 2 == 0 and literal_state_1[lit + 1] == 0:
-                running_literal.append([lit + 1, v])
-            elif lit % 2 == 1 and literal_state_1[lit - 1] == 0:
-                running_literal.append([lit - 1, v])
+        literal_state, clause_state, clause_lenght, running_literal = initialisation(literal, clause)
+
+        lit = mono_choice(literal, literal_state, clause, clause_state, clause_lenght)
+        if not isinstance(lit, int):
+            lit = heuristic(literal, literal_state, clause, clause_state)
+
+        running_literal.append(lit)
+        
+        loop = True
+        while loop:
+            update_literal_state_bis(literal_state, lit)
+            update_clause_bis(clause, clause_state, clause_lenght, lit)
+
+            if is_satisfied(clause_lenght, clause_state):
+                models.append(copy(running_literal))
+
+                if not find_all_solutions:
+                    return models
+                else:
+                    back_track = False, False
+                    while back_track[0] is False:
+                        back_track = dpll_backtrack(literal_state, running_literal)
+                    dpll_backtracj_bis(literal, clause, running_literal)
+                    lit = back_track[1]
+                    if lit is None:
+                        loop = False
+                    running_literal.append(lit)
+
+            elif is_unsatisfactory(clause_lenght, clause_state):
+                back_track = [False, False]
+                while back_track[0] is False:
+                    back_track = dpll_backtrack(literal_state, running_literal)
+
+                dpll_backtracj_bis(literal, clause, running_literal)
+                lit = back_track[1]
+                if lit is None:
+                    loop = False
+                running_literal.append(lit)
+
             else:
-                lit = running_literal.pop()
-                running_literal.append([lit, True])
-        else:
-            lit = literal_choice(clause, clause_lenght_1, literal, literal_state_1)
-            running_literal.append([lit, True])
+                lit = mono_choice(literal, literal_state, clause, clause_state, clause_lenght)
+                if not isinstance(lit, int):
+                    lit = heuristic(literal, literal_state, clause, clause_state)
 
-        clause_state, clause_lenght, literal_state = clause_state_1, clause_lenght_1, literal_state_1
+                running_literal.append(lit)
+        return models
 
 
-file_path = "../data/test.txt"
-f = open(file_path, "r")
+path_file = "../data/test2.txt"
+f = open(path_file, "r")
+
 literal, clause = load(f)
-literal_state, clause_state, clause_lenght, running_literal = initialisation(literal, clause)
-
-print(dpll(clause, clause_lenght, literal_state, clause_state, running_literal, literal))
+print(dpll(literal, clause, first_satisfy, find_all_solutions=True))
