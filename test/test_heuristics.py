@@ -1,6 +1,6 @@
 import unittest
 
-from source.heuristics import mono_literal, pure_literal, literal_choice
+from source.first_literal_choice import mono_literal, pure_literal, literal_choice
 from source.model import load
 
 

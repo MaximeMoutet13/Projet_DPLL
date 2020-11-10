@@ -35,6 +35,5 @@ def initialisation(literal, clause):
     literal_state = [0 for i in range(len(literal))]
     clause_state = [0 for i in range(len(clause))]
     clause_lenght = [len(clause[i]) for i in range(len(clause))]
-    running_literal = []
 
-    return literal_state, clause_state, clause_lenght, running_literal
+    return literal_state, clause_state, clause_lenght

@@ -2,7 +2,7 @@ import unittest
 
 from source.dpll_functions import update_clause, update_literal_state, is_satisfied
 from source.model import load, initialisation
-from source.heuristics import literal_choice
+from source.first_literal_choice import literal_choice
 
 
 # class TestSimplifyClause(unittest.TestCase):

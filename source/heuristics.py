@@ -1,3 +1,6 @@
+from source.first_literal_choice import mono_choice_bis
+
+
 def first_satisfy(literal, literal_state, clause, clause_state):
     lit_occ = [[0, i] for i in range(len(literal))]
 
@@ -16,16 +19,16 @@ def first_satisfy(literal, literal_state, clause, clause_state):
     for j in range(len(literal) - 1, -1, -1):
         lit = lit_occ[j][1]
 
-        if literal_state[j] == 0:
+        if literal_state[lit] == 0:
             return lit
 
     return "No first satisfy"
 
 
 def first_fail(literal, literal_state, clause, clause_state):
-    lit_occ = [[0, i] for i in range(literal)]
+    lit_occ = [[0, i] for i in range(len(literal))]
 
-    for i in range(clause):
+    for i in range(len(clause)):
         if clause_state[i] == 0:
 
             for lit in clause[i]:
@@ -57,3 +60,10 @@ def no_heuristic(literal, literal_state, clause, clause_state):
         else:
             if literal_state[i] + literal_state[i - 1] == 0:
                 return i
+
+
+def literal_choice(literal, literal_state, clause, clause_state, clause_lenght, heuristic):
+    lit = mono_choice_bis(literal, literal_state, clause, clause_state, clause_lenght)
+    if not isinstance(lit, int):
+        lit = heuristic(literal, literal_state, clause, clause_state)
+    return lit

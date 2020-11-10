@@ -5,6 +5,7 @@ from source.heuristics import *
 
 from copy import copy
 
+
 def dpll_backtrack(literal_state, running_literal):
     if len(running_literal) == 0:
         return True, None
@@ -21,14 +22,18 @@ def dpll_backtrack(literal_state, running_literal):
     return False, None
 
 
-def dpll_backtracj_bis(literal, clause, running_literal):
-    literal_state, clause_state, clause_lenght, useless = initialisation(literal, clause)
+def dpll_backtracj_bis(literal, clause, literal_state, running_literal):
+    new_literal_state, new_clause_state, new_clause_lenght, useless = initialisation(literal, clause)
     for i in range(len(running_literal)):
         lit = running_literal[i]
-        update_literal_state_bis(literal_state, lit)
-        update_clause_bis(clause, clause_state, clause_lenght, lit)
+        update_literal_state_bis(new_literal_state, lit)
+        if lit % 2 == 0:
+            new_literal_state[lit + 1] = literal_state[lit + 1]
+        else:
+            new_literal_state[lit - 1] = literal_state[lit - 1]
 
-    print(literal_state)
+        update_clause_bis(clause, new_clause_state, new_clause_lenght, lit)
+    return new_literal_state, new_clause_state, new_clause_lenght
 
 
 def dpll(literal, clause, heuristic, find_all_solutions=False):
@@ -40,7 +45,6 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
 
     else:
         models = []
-
         literal_state, clause_state, clause_lenght, running_literal = initialisation(literal, clause)
 
         lit = mono_choice(literal, literal_state, clause, clause_state, clause_lenght)
@@ -48,9 +52,13 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
             lit = heuristic(literal, literal_state, clause, clause_state)
 
         running_literal.append(lit)
-        
+
         loop = True
+        i = -1
         while loop:
+            i += 1
+            if i == 4:
+                break
             update_literal_state_bis(literal_state, lit)
             update_clause_bis(clause, clause_state, clause_lenght, lit)
 
@@ -63,11 +71,14 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
                     back_track = False, False
                     while back_track[0] is False:
                         back_track = dpll_backtrack(literal_state, running_literal)
-                    dpll_backtracj_bis(literal, clause, running_literal)
+                    literal_state, clause_state, clause_lenght = dpll_backtracj_bis(literal, clause, literal_state, running_literal)
                     lit = back_track[1]
+
                     if lit is None:
                         loop = False
                     running_literal.append(lit)
+                    if i == 3:
+                        print(literal_state, clause_state, clause_lenght, running_literal, lit)
 
             elif is_unsatisfactory(clause_lenght, clause_state):
                 back_track = [False, False]
@@ -86,11 +97,11 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
                     lit = heuristic(literal, literal_state, clause, clause_state)
 
                 running_literal.append(lit)
-        return models
+        # return models
 
 
 path_file = "../data/test2.txt"
 f = open(path_file, "r")
 
 literal, clause = load(f)
-print(dpll(literal, clause, first_satisfy, find_all_solutions=True))
+print(dpll(literal, clause, no_heuristic, find_all_solutions=True))
