@@ -1,8 +1,8 @@
-from source.iterative.dpll_iterative_functions import update_clause, update_literal_state
+from source.recursive.dpll_recursive_functions import update_clause, update_literal_state
 from source.model import load, initialisation
-from source.heuristics import no_heuristic
+from source.heuristics import no_heuristic, first_fail, first_satisfy
 
-file_path = "../../data/test1.txt"
+file_path = "../../../data/test1.txt"
 f = open(file_path, "r")
 f_literals, f_clauses = load(f)
 
