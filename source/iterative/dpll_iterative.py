@@ -1,4 +1,4 @@
-from source.iterative.dpll_iterative_functions import update_clause_bis, update_literal_state_bis, is_satisfied, \
+from source.iterative.dpll_iterative_functions import update_clause, update_literal_state, is_satisfied, \
     is_unsatisfactory
 from source.model import load, initialisation, display
 from source.heuristics import literal_choice, no_heuristic, first_satisfy, first_fail
@@ -24,8 +24,8 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         i = 1
         while loop:
             i += 1
-            update_literal_state_bis(literal_state, lit)
-            update_clause_bis(clause, clause_state, clause_lenght, lit)
+            update_literal_state(literal_state, lit)
+            update_clause(clause, clause_state, clause_lenght, lit)
             running_literal.append(lit)
 
             if is_satisfied(clause_lenght, clause_state):

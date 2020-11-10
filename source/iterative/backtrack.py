@@ -1,5 +1,5 @@
 from source.model import initialisation
-from source.iterative.dpll_iterative_functions import update_literal_state_bis, update_clause_bis
+from source.iterative.dpll_iterative_functions import update_literal_state, update_clause
 
 
 def backtrack(literal, literal_state, clause, clause_state, clause_lenght, running_literal):
@@ -40,8 +40,8 @@ def reconstruct(literal, literal_state, clause, running_literal, lit):
     new_literal_state, new_clause_state, new_clause_lenght = initialisation(literal, clause)
     for i in range(len(running_literal)):
         current_literal = running_literal[i]
-        update_literal_state_bis(new_literal_state, current_literal)
-        update_clause_bis(clause, new_clause_state, new_clause_lenght, current_literal)
+        update_literal_state(new_literal_state, current_literal)
+        update_clause(clause, new_clause_state, new_clause_lenght, current_literal)
         if current_literal % 2 == 0:
             new_literal_state[current_literal + 1] = literal_state[current_literal + 1]
         else:

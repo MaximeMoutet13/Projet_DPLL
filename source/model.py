@@ -47,9 +47,7 @@ def display(literal, models, file):
         for s in line:
             f.write(str(s) + " ")
         f.write("\n")
-
-
-
+    f.close()
 
 
 def initialisation(literal, clause):

@@ -1,4 +1,4 @@
-def update_clause_bis(clause, clause_state, clause_lenght, lit):
+def update_clause(clause, clause_state, clause_lenght, lit):
     for c, lits_in_clause in enumerate(clause):
         if lit in lits_in_clause:
 
@@ -14,7 +14,7 @@ def update_clause_bis(clause, clause_state, clause_lenght, lit):
             clause_lenght[c] -= 1
 
 
-def update_literal_state_bis(literal_state, lit):
+def update_literal_state(literal_state, lit):
     literal_state[lit] = 1
 
 
