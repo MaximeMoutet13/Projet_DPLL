@@ -25,7 +25,7 @@ def update_clause(clause, clause_state, clause_lenght, lit):
 def update_literal_state(literal_state, lit):
     new_literal_state = copy(literal_state)
     new_literal_state[lit] = 1
-    if (lit % 2 == 0):
+    if lit % 2 == 0:
         new_literal_state[lit+1] = 0
     else :
         new_literal_state[lit-1] = 0
