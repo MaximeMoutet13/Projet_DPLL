@@ -1,5 +1,5 @@
 from source.model import initialisation
-from source.dpll_functions import update_literal_state_bis, update_clause_bis
+from source.iterative.dpll_iterative_functions import update_literal_state_bis, update_clause_bis
 
 
 def backtrack(literal, literal_state, clause, clause_state, clause_lenght, running_literal):
