@@ -3,16 +3,12 @@ from source.model import load, initialisation
 from source.heuristics import no_heuristic, first_fail, first_satisfy, literal_choice
 from time import time
 
-file_path = "../../data/2p2P.txt"
-f = open(file_path, "r")
-f_literals, f_clauses = load(f)
-
 
 def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, literals_state=None, clauses_state=None, running_literals=None, find_all_solutions=False):
     """SECOND VERSION"""
-    models = list()
 
     """Initialisation"""
+
     if not clauses_state:
         if affichage:print("pass init")
         models = list()
@@ -60,7 +56,12 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
     return models
 
 
-affichage = 1
+file_path = "../../data/2p2P.txt"
+f = open(file_path, "r")
+f_literals, f_clauses = load(f)
+
+
+affichage = 0
 t = time()
 print(dpll_recursif(first_fail, f_clauses, f_literals))
 t = time() - t

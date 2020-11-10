@@ -29,5 +29,5 @@ def pigeon_generator(n, m, f):
     f.close()
 
 
-f = "../../data/2p2P.txt"
-pigeon_generator(2, 2, f)
+f = "../../data/8p7P.txt"
+pigeon_generator(8, 7, f)
