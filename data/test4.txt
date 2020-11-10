@@ -1,4 +1,4 @@
-a b c
+a b c d
 
-a
-not(a)
+-c d -b -a
+c d -b -a

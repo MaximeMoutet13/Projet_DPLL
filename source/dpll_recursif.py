@@ -16,7 +16,7 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
     if not clauses_state:
         if affichage:print("pass init")
         models = list()
-        literals_state, clauses_state, clauses_lenght, running_literals = initialisation(literals, clauses)
+        literals_state, clauses_state, clauses_lenght = initialisation(literals, clauses)
         running_literals = list()
         if not clauses:
             return []
@@ -53,6 +53,7 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
         """Heuristic choice of a litteral"""
         if affichage: print("pass heuristic", clauses_state, literals_state, clauses_lenght)
         l_1 = heuristic_choice(literals, literals_state, clauses, clauses_state)
+        print(l_1)
         literals_state_1 = update_literal_state(literals_state, l_1)
         running_literals_1 = [l_1] + running_literals
         clauses_state_1, clauses_lenght_1 = update_clause(clauses, clauses_state, clauses_lenght, l_1)
@@ -74,5 +75,6 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
 
     return models
 
-affichage = 1
-print(dpll_recursif(no_heuristic, f_clauses, f_literals))
+
+affichage = 0
+print(dpll_recursif(first_fail, f_clauses, f_literals))
