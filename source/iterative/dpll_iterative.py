@@ -50,10 +50,8 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         return models
 
 
-path_file = "../data/test1.txt"
+path_file = "../data/7p6P.txt"
 f = open(path_file, "r")
 
 literal, clause = load(f)
-
-g = "../data/res1.txt"
-display(literal, dpll(literal, clause, first_satisfy, find_all_solutions=True), g)
+print(dpll(literal, clause, first_satisfy, find_all_solutions=True))

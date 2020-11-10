@@ -8,7 +8,6 @@ def load(f):
     """
 
     txt = [line.split() for line in f]
-
     literal = dict()  # this is a step to easily construct clause
     for i, lit in enumerate(txt[0]):
         literal[lit] = [2 * i, []]
@@ -59,3 +58,8 @@ def initialisation(literal, clause):
     clause_lenght = [len(clause[i]) for i in range(len(clause))]
 
     return literal_state, clause_state, clause_lenght
+
+
+f1 = "../data/7p6P.txt"
+f = open(f1, "r")
+
