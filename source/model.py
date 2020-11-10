@@ -60,6 +60,3 @@ def initialisation(literal, clause):
     return literal_state, clause_state, clause_lenght
 
 
-f1 = "../data/7p6P.txt"
-f = open(f1, "r")
-
