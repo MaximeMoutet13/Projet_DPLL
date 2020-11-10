@@ -12,7 +12,7 @@ def load(f):
     literal = dict()  # this is a step to easily construct clause
     for i, lit in enumerate(txt[0]):
         literal[lit] = [2 * i, []]
-        literal["not(" + lit + ")"] = [2 * i + 1, []]
+        literal["-" + lit] = [2 * i + 1, []]
 
     clause = [[] for i in range(len(txt[2:]))]
 
