@@ -1,17 +1,16 @@
-def update_clause(clause, clause_state, clause_lenght, lit):
-    for c, lits_in_clause in enumerate(clause):
-        if lit in lits_in_clause:
+def update_clause(literal, clause_state, clause_lenght, lit):
+    for c in literal[lit]:
 
             clause_lenght[c] = 0
             clause_state[c] = 1
-
-        elif (lit % 2 == 0) and (lit + 1 in lits_in_clause) and (clause_lenght[c] != 0):
-
-            clause_lenght[c] -= 1
-
-        elif (lit % 2 == 1) and (lit - 1 in lits_in_clause) and (clause_lenght[c] != 0):
-
-            clause_lenght[c] -= 1
+    if lit % 2 == 0:
+        for c in literal[lit + 1]:
+            if clause_lenght[c] != 0:
+                clause_lenght[c] -= 1
+    else:
+        for c in literal[lit - 1]:
+            if clause_lenght[c] != 0:
+                clause_lenght[c] -= 1
 
 
 def update_literal_state(literal_state, lit):

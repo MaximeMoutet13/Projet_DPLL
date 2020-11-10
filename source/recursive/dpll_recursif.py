@@ -56,13 +56,13 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
     return models
 
 
-file_path = "../../data/2p2P.txt"
-f = open(file_path, "r")
-f_literals, f_clauses = load(f)
+# file_path = "../../data/2p2P.txt"
+# f = open(file_path, "r")
+# f_literals, f_clauses = load(f)
 
 
 affichage = 0
 t = time()
-print(dpll_recursif(first_fail, f_clauses, f_literals))
+# print(dpll_recursif(first_fail, f_clauses, f_literals))
 t = time() - t
 print(t)

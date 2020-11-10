@@ -41,7 +41,7 @@ def reconstruct(literal, literal_state, clause, running_literal, lit):
     for i in range(len(running_literal)):
         current_literal = running_literal[i]
         update_literal_state(new_literal_state, current_literal)
-        update_clause(clause, new_clause_state, new_clause_lenght, current_literal)
+        update_clause(literal, new_clause_state, new_clause_lenght, current_literal)
         if current_literal % 2 == 0:
             new_literal_state[current_literal + 1] = literal_state[current_literal + 1]
         else:

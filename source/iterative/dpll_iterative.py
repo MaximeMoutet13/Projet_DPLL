@@ -5,6 +5,7 @@ from source.heuristics import literal_choice, no_heuristic, first_satisfy, first
 from source.iterative.backtrack import backtrack
 
 from copy import copy
+from time import time
 
 
 def dpll(literal, clause, heuristic, find_all_solutions=False):
@@ -25,7 +26,7 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         while loop:
             i += 1
             update_literal_state(literal_state, lit)
-            update_clause(clause, clause_state, clause_lenght, lit)
+            update_clause(literal, clause_state, clause_lenght, lit)
             running_literal.append(lit)
 
             if is_satisfied(clause_lenght, clause_state):
@@ -35,14 +36,10 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
                     return models
 
                 else:
-                    loop, literal_state, clause_state, clause_lenght, lit = backtrack(literal, literal_state, clause,
-                                                                                      clause_state, clause_lenght,
-                                                                                      running_literal)
+                    loop, literal_state, clause_state, clause_lenght, lit = backtrack(literal, literal_state, clause, clause_state, clause_lenght,running_literal)
 
             elif is_unsatisfactory(clause_lenght, clause_state):
-                loop, literal_state, clause_state, clause_lenght, lit = backtrack(literal, literal_state, clause,
-                                                                                  clause_state, clause_lenght,
-                                                                                  running_literal)
+                loop, literal_state, clause_state, clause_lenght, lit = backtrack(literal, literal_state, clause, clause_state, clause_lenght, running_literal)
 
             else:
                 lit = literal_choice(literal, literal_state, clause, clause_state, clause_lenght, heuristic)
@@ -50,8 +47,7 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         return models
 
 
-path_file = "../data/7p6P.txt"
+path_file = "../data/2p2P.txt"
 f = open(path_file, "r")
 
 literal, clause = load(f)
-print(dpll(literal, clause, first_satisfy, find_all_solutions=True))
