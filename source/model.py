@@ -28,6 +28,30 @@ def load(f):
     return literal_list, clause
 
 
+def display(literal, models, file):
+    f = open(file, "w")
+
+    for i in range(int(len(literal) / 2)):
+        f.write(chr(i + 97) + " ")
+    f.write("\n" + "\n")
+
+    for m in models:
+        line = ["_" for i in range(int(len(literal) / 2))]
+
+        for x in m:
+            if x % 2 == 0:
+                line[int(x / 2)] = 1
+            else:
+                line[int((x - 1) / 2)] = 0
+
+        for s in line:
+            f.write(str(s) + " ")
+        f.write("\n")
+
+
+
+
+
 def initialisation(literal, clause):
     """Construct needed structures to run DPLL algorithm
     """

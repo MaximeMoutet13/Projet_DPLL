@@ -1,9 +1,8 @@
-from source.dpll_functions import update_clause, update_literal_state, is_satisfied, is_unsatisfactory
+from source.iterative.dpll_iterative_functions import update_clause, update_literal_state
 from source.model import load, initialisation
-from source.first_literal_choice import mono_choice
-from source.heuristics import first_fail, first_satisfy, no_heuristic
+from source.heuristics import no_heuristic
 
-file_path = "../data/test.txt"
+file_path = "../../data/test1.txt"
 f = open(file_path, "r")
 f_literals, f_clauses = load(f)
 

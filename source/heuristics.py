@@ -1,4 +1,4 @@
-from source.first_literal_choice import mono_choice_bis
+from source.first_literal_choice import mono_choice
 
 
 def first_satisfy(literal, literal_state, clause, clause_state):
@@ -63,7 +63,7 @@ def no_heuristic(literal, literal_state, clause, clause_state):
 
 
 def literal_choice(literal, literal_state, clause, clause_state, clause_lenght, heuristic):
-    lit = mono_choice_bis(literal, literal_state, clause, clause_state, clause_lenght)
+    lit = mono_choice(literal, literal_state, clause, clause_state, clause_lenght)
     if not isinstance(lit, int):
         lit = heuristic(literal, literal_state, clause, clause_state)
     return lit
