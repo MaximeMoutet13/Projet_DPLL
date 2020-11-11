@@ -5,7 +5,7 @@ from time import time
 
 
 def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, literals_state=None, clauses_state=None,
-                  running_literals=None, find_all_solutions=False):
+                  running_literals=None, find_all_solutions=True):
     """SECOND VERSION"""
 
     """Initialisation"""
@@ -30,7 +30,7 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
 
     """Induction"""
 
-    """Heuristic choice of a litteral"""
+    """Heuristic choice of a litteral and his opposite"""
     l_1 = literal_choice(literals, literals_state, clauses, clauses_state, clauses_lenght, heuristic_choice)
     literals_state_1 = update_literal_state(literals_state, l_1)
     running_literals_1 = [l_1] + running_literals
@@ -42,6 +42,8 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
     literals_state_2 = update_literal_state(literals_state, l_2)
     running_literals_2 = [l_2] + running_literals
     clauses_state_2, clauses_lenght_2 = update_clause(literals, clauses_state, clauses_lenght, l_2)
+
+    """Models construction"""
     if (state == 0 for state in clauses_state):
         models += dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght_1, literals_state_1,
                                 clauses_state_1, running_literals_1)
@@ -55,7 +57,7 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
     return models
 
 
-file_path = "../../data/queens/5Q.txt"
+file_path = "../../data/pigeon_hole/8p7P.txt"
 f = open(file_path, "r")
 f_literals, f_clauses = load(f)
 
@@ -64,5 +66,5 @@ dpll_recursif(first_fail, f_clauses, f_literals)
 t = time() - t
 print(t)
 
-f_2 = "../../data/queens/res5Q.txt"
-display(f_literals, dpll_recursif(first_fail, f_clauses, f_literals), f_2)
+# f_2 = "../../data/queens/res5Q.txt"
+# display(f_literals, dpll_recursif(first_fail, f_clauses, f_literals), f_2)
