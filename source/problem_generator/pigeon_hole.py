@@ -1,7 +1,11 @@
 def pigeon_generator(n, m, f):
+    """Pigeon hole problem generator, for n pigeons and m holes"""
+
     f = open(f, "w")
     d = {}
     nb_literal = 0
+
+    """Variables and State creation"""
     for i in range(n):
         for j in range(m):
             f.write(str(nb_literal) + " ")
@@ -10,6 +14,7 @@ def pigeon_generator(n, m, f):
     f.write("\n")
     f.write("\n")
 
+    """Clauses creation : a pigeon is in one and only one hole"""
     for i in range(n):
         for j in range(m):
             f.write(str(d[(i, j)]) + " ")
@@ -20,6 +25,7 @@ def pigeon_generator(n, m, f):
                 f.write("-" + str(d[(i, k)]) + " ")
                 f.write("\n")
 
+    """Clauses creation : there is one pigeon max per hole"""
     for j in range(m):
         for i in range(n):
             for k in range(i + 1, n):
@@ -29,5 +35,5 @@ def pigeon_generator(n, m, f):
     f.close()
 
 
-f = "../../data/2p2P.txt"
-pigeon_generator(2, 2, f)
+f = "../../data/pigeon_hole/4p4P.txt"
+pigeon_generator(4, 4, f)

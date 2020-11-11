@@ -1,4 +1,4 @@
-def queens_generator(n,f):
+def queens_generator(n, f):
     """Queens problem generator, for n queens on a n x n chessboard"""
 
     f = open(f, "w")
@@ -30,64 +30,62 @@ def queens_generator(n,f):
             for k in range(n):
                 for j_2 in range(n):
                     for k_2 in range(n):
-                        if (j,k) != (j_2,k_2) and not state[frozenset([(i,j,k),(i,j_2,k_2)])]:
+                        if (j, k) != (j_2, k_2) and not state[frozenset([(i, j, k), (i, j_2, k_2)])]:
                             f.write("-" + str(d[(i, j, k)]) + " ")
                             f.write("-" + str(d[(i, j_2, k_2)]) + " ")
                             f.write("\n")
                             state[frozenset([(i, j, k), (i, j_2, k_2)])] = True
 
     """Clauses creation : there is one queen max per column"""
-    f.write("column \n")
-    for i in range(n) :
-        for j in range(n) :
-            for k in range(n) :
-                for i_2 in range (i+1,n):
-                    for j_2 in range (n):
-                        if (i, j) != (i_2,j_2) and not state[frozenset([(i,j,k),(i_2,j_2,k)])]:
+    # f.write("column \n")
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                for i_2 in range(i + 1, n):
+                    for j_2 in range(n):
+                        if not state[frozenset([(i, j, k), (i_2, j_2, k)])]:
                             f.write("-" + str(d[(i, j, k)]) + " ")
                             f.write("-" + str(d[(i_2, j_2, k)]) + " ")
                             f.write("\n")
                             state[frozenset([(i, j, k), (i_2, j_2, k)])] = True
 
     """Clauses creation : there is one queen max per line"""
-    f.write("line \n")
     for i in range(n):
         for j in range(n):
             for k in range(n):
-                for i_2 in range(i+1, n):
+                for i_2 in range(i + 1, n):
                     for k_2 in range(n):
-                        if (i,k) != (i_2,k_2) and not state[frozenset([(i,j,k),(i_2,j,k_2)])]:
+                        if not state[frozenset([(i, j, k), (i_2, j, k_2)])]:
                             f.write("-" + str(d[(i, j, k)]) + " ")
                             f.write("-" + str(d[(i_2, j, k_2)]) + " ")
                             f.write("\n")
                             state[frozenset([(i, j, k), (i_2, j, k_2)])] = True
 
     """Clauses creation : there is one queen max per diagonal NW to SE"""
-    f.write("diag 1 \n")
     for i in range(n):
         for j in range(n):
             for k in range(n):
-                for i_2 in range(n):
-                    for m in range(n - max(k, j)):
-                        if (i,0) != (i_2,m) and not state[frozenset([(i,j,k),(i_2,j+m,k+m)])]:
+                for i_2 in range(i + 1, n):
+                    for m in range(-min(k, j), n - max(k, j)):
+                        if not state[frozenset([(i, j, k), (i_2, j + m, k + m)])]:
                             f.write("-" + str(d[(i, j, k)]) + " ")
                             f.write("-" + str(d[(i_2, j + m, k + m)]) + " ")
                             f.write("\n")
-                            state[frozenset([(i, j, k), (i, j+m, k+m)])] = True
+                            state[frozenset([(i, j, k), (i_2, j + m, k + m)])] = True
 
-    """Clauses creation : there is one queen max per diagonal SE to NW"""
-    f.write("diag 2 \n")
+    """Clauses creation : there is one queen max per diagonal NE to SW"""
     for i in range(n):
         for j in range(n):
             for k in range(n):
-                for i_2 in range(n):
-                    for m in range(min(k+1, n-j)):
-                        if (i,0) != (i_2,m) and not state[frozenset([(i,j,k),(i,j+m,k-m)])]:
+                for i_2 in range(i + 1, n):
+                    for m in range(-min(n - k - 1, j), min(k + 1, n - j)):
+                        if not state[frozenset([(i, j, k), (i_2, j + m, k - m)])]:
                             f.write("-" + str(d[(i, j, k)]) + " ")
                             f.write("-" + str(d[(i_2, j + m, k - m)]) + " ")
                             f.write("\n")
-                            state[frozenset([(i, j, k), (i_2, j+m, k-m)])] = True
+                            state[frozenset([(i, j, k), (i_2, j + m, k - m)])] = True
     f.close()
 
-f = "../../data/3Q.txt"
-queens_generator(3, f)
+
+f = "../../data/queens/5Q.txt"
+queens_generator(5, f)

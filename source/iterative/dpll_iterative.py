@@ -47,7 +47,7 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         return models
 
 
-path_file = "../data/2p2P.txt"
+path_file = "../../data/pigeon_hole/2p2P.txt"
 f = open(path_file, "r")
 
 literal, clause = load(f)
