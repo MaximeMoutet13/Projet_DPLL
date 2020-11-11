@@ -1,8 +1,7 @@
-from source.iterative.dpll_iterative_functions import update_clause, update_literal_state, is_satisfied, \
-    is_unsatisfactory
+from source.iterative.dpll_iterative_functions import update_clause, update_literal_state,  satisfy
 from source.model import load, initialisation, display
 from source.heuristics import literal_choice, no_heuristic, first_satisfy, first_fail
-from source.iterative.backtrack import backtrack
+from source.iterative.backtrack import backtrack_better
 
 from copy import copy
 from time import time
@@ -25,21 +24,30 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         i = 1
         while loop:
             i += 1
-            update_literal_state(literal_state, lit)
+            literal_state[lit] = 1
             update_clause(literal, clause_state, clause_lenght, lit)
             running_literal.append(lit)
 
-            if is_satisfied(clause_lenght, clause_state):
+            sat = satisfy(clause, clause_state, clause_lenght)
+            if sat is True:
                 models.append(copy(running_literal))
 
                 if not find_all_solutions:
                     return models
 
                 else:
-                    loop, literal_state, clause_state, clause_lenght, lit = backtrack(literal, literal_state, clause, clause_state, clause_lenght,running_literal)
+                    next_lit = backtrack_better(literal, clause, literal_state, clause_state, clause_lenght, running_literal)
+                    if next_lit is None:
+                        loop = False
+                    else:
+                        lit = next_lit
 
-            elif is_unsatisfactory(clause_lenght, clause_state):
-                loop, literal_state, clause_state, clause_lenght, lit = backtrack(literal, literal_state, clause, clause_state, clause_lenght, running_literal)
+            elif sat is False:
+                next_lit = backtrack_better(literal, clause, literal_state, clause_state, clause_lenght, running_literal)
+                if next_lit is None:
+                    loop = False
+                else:
+                    lit = next_lit
 
             else:
                 lit = literal_choice(literal, literal_state, clause, clause_state, clause_lenght, heuristic)
@@ -47,7 +55,11 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         return models
 
 
-path_file = "../../data/pigeon_hole/2p2P.txt"
+path_file = "../data/DPLL/test1.txt"
 f = open(path_file, "r")
 
 literal, clause = load(f)
+
+d = time()
+print(dpll(literal, clause, no_heuristic, find_all_solutions=True))
+print("time:", time() - d)

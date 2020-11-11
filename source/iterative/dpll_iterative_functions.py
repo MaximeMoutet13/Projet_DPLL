@@ -17,6 +17,21 @@ def update_literal_state(literal_state, lit):
     literal_state[lit] = 1
 
 
+def satisfy(clause, clause_state, clause_lenght):
+    nb_empty_clause = 0
+    for i in range(len(clause)):
+        if clause_lenght[i] == 0:
+
+            nb_empty_clause += 1
+            if clause_state[i] == 0:
+                return False
+
+    if nb_empty_clause == len(clause):
+        return True
+
+    return None
+
+
 def is_satisfied(clause_lenght, clause_state):
     if clause_lenght == [0 for i in range(len(clause_lenght))]:
 
