@@ -1,5 +1,5 @@
 from source.recursive.dpll_recursive_functions import update_clause, update_literal_state
-from source.model import load, initialisation
+from source.model import load, initialisation, display
 from source.heuristics import no_heuristic, first_fail, first_satisfy, literal_choice
 from time import time
 
@@ -9,9 +9,9 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
 
     """Initialisation"""
 
+    models = list()
     if not clauses_state:
         if affichage:print("pass init")
-        models = list()
         literals_state, clauses_state, clauses_lenght = initialisation(literals, clauses)
         running_literals = list()
         if not clauses:
@@ -37,14 +37,14 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
     if affichage: print(l_1)
     literals_state_1 = update_literal_state(literals_state, l_1)
     running_literals_1 = [l_1] + running_literals
-    clauses_state_1, clauses_lenght_1 = update_clause(clauses, clauses_state, clauses_lenght, l_1)
+    clauses_state_1, clauses_lenght_1 = update_clause(literals, clauses_state, clauses_lenght, l_1)
     if l_1 % 2 == 0:
         l_2 = l_1 + 1
     else:
         l_2 = l_1 - 1
     literals_state_2 = update_literal_state(literals_state, l_2)
     running_literals_2 = [l_2] + running_literals
-    clauses_state_2, clauses_lenght_2 = update_clause(clauses, clauses_state, clauses_lenght, l_2)
+    clauses_state_2, clauses_lenght_2 = update_clause(literals, clauses_state, clauses_lenght, l_2)
     if (state == 0 for state in clauses_state):
         if affichage:print("pass new model", clauses_state, literals_state)
         if affichage:print(dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght_1, literals_state_1, clauses_state_1, running_literals_1),dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght_2, literals_state_2, clauses_state_2, running_literals_2))
@@ -56,13 +56,16 @@ def dpll_recursif(heuristic_choice, clauses, literals, clauses_lenght=None, lite
     return models
 
 
-# file_path = "../../data/2p2P.txt"
-# f = open(file_path, "r")
-# f_literals, f_clauses = load(f)
-
+file_path = "../../data/3Q.txt"
+f = open(file_path, "r")
+f_literals, f_clauses = load(f)
 
 affichage = 0
+
 t = time()
-# print(dpll_recursif(first_fail, f_clauses, f_literals))
+print(dpll_recursif(first_fail, f_clauses, f_literals))
 t = time() - t
 print(t)
+
+f_2 = "../../data/res3Q.txt"
+display(f_literals, dpll_recursif(first_fail, f_clauses, f_literals), f_2)
