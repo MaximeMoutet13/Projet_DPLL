@@ -1,5 +1,5 @@
 from source.iterative.dpll_iterative_functions import update_clause, satisfy
-from source.model import load, initialisation, display
+from source.model import load, initialisation, display, count_models
 from source.heuristics import literal_choice, no_heuristic, first_satisfy, first_fail
 from source.iterative.backtrack import backtrack
 
@@ -55,11 +55,13 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         return models, i
 
 
-# path_file = "../data/pigeon_hole/7p6P.txt"
-# f = open(path_file, "r")
-#
-# literal, clause = load(f)
-#
-# d = time()
-# print(dpll(literal, clause, no_heuristic, find_all_solutions=True))
-# print("time:", time() - d)
+if __name__ == "__main__":
+    path_file = "../data/queens/5Q.txt"
+    f = open(path_file, "r")
+
+    literal, clause = load(f)
+
+    d = time()
+    mod, nodes = dpll(literal, clause, first_fail, find_all_solutions=True)
+    print("time:", time() - d)
+    print("nombre de modeles:", count_models(literal, mod))
