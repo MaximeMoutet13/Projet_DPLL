@@ -1,7 +1,7 @@
-from source.iterative.dpll_iterative_functions import update_clause, update_literal_state,  satisfy
+from source.iterative.dpll_iterative_functions import update_clause, satisfy, is_satisfied, is_unsatisfactory
 from source.model import load, initialisation, display
 from source.heuristics import literal_choice, no_heuristic, first_satisfy, first_fail
-from source.iterative.backtrack import backtrack_better
+from source.iterative.backtrack import backtrack
 
 from copy import copy
 from time import time
@@ -22,7 +22,7 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
 
         loop = True
         i = 1
-        while loop:
+        while loop is True:
             i += 1
             literal_state[lit] = 1
             update_clause(literal, clause_state, clause_lenght, lit)
@@ -36,14 +36,14 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
                     return models
 
                 else:
-                    next_lit = backtrack_better(literal, clause, literal_state, clause_state, clause_lenght, running_literal)
+                    next_lit, clause_state, clause_lenght = backtrack(literal, clause, literal_state, running_literal)
                     if next_lit is None:
                         loop = False
                     else:
                         lit = next_lit
 
             elif sat is False:
-                next_lit = backtrack_better(literal, clause, literal_state, clause_state, clause_lenght, running_literal)
+                next_lit, clause_state, clause_lenght = backtrack(literal, clause, literal_state, running_literal)
                 if next_lit is None:
                     loop = False
                 else:
@@ -55,11 +55,11 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         return models
 
 
-path_file = "../data/DPLL/test1.txt"
-f = open(path_file, "r")
-
-literal, clause = load(f)
-
-d = time()
-print(dpll(literal, clause, no_heuristic, find_all_solutions=True))
-print("time:", time() - d)
+# path_file = "../data/queens/3Q.txt"
+# f = open(path_file, "r")
+#
+# literal, clause = load(f)
+#
+# d = time()
+# print(dpll(literal, clause, no_heuristic, find_all_solutions=True))
+# print("time:", time() - d)

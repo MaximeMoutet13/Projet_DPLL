@@ -29,15 +29,15 @@ def main(params, n_runs=4):
 
 
 if __name__ == '__main__':
-    path_file_1 = "../data/5p4P.txt"
+    path_file_1 = "../data/pigeon_hole/5p4P.txt"
     f_1 = open(path_file_1, "r")
     literal_1, clause_1 = load(f_1)
 
-    path_file_2 = "../data/6p5P.txt"
+    path_file_2 = "../data/pigeon_hole/6p5P.txt"
     f_2 = open(path_file_2, "r")
     literal_2, clause_2 = load(f_2)
 
-    path_file_3 = "../data/7p6P.txt"
+    path_file_3 = "../data/pigeon_hole/7p6P.txt"
     f_3 = open(path_file_3, "r")
     literal_3, clause_3 = load(f_3)
 

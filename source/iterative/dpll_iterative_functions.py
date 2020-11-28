@@ -1,8 +1,7 @@
 def update_clause(literal, clause_state, clause_lenght, lit):
     for c in literal[lit]:
-
-            clause_lenght[c] = 0
-            clause_state[c] = 1
+        clause_lenght[c] = 0
+        clause_state[c] = 1
     if lit % 2 == 0:
         for c in literal[lit + 1]:
             if clause_lenght[c] != 0:

@@ -60,3 +60,18 @@ def initialisation(literal, clause):
     return literal_state, clause_state, clause_lenght
 
 
+def count_models(literal, model):
+    n = int(len(literal) / 2)
+    res = 0
+
+    for mod in model:
+        m = len(mod)
+
+        if m == n:
+            res += 1
+
+        else:
+            free_lit = n - m
+            res += 2 ** free_lit
+
+    return res
