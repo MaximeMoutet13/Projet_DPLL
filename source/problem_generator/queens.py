@@ -1,5 +1,5 @@
 def queens_generator(n, f):
-    """Queens problem generator, for n queens on a n x n chessboard"""
+    """Queens problem generator, for n queens on a n x n chessboard. Queens are distinguishable"""
 
     f = open(f, "w")
     d = {}
