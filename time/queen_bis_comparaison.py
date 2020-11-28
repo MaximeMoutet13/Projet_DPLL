@@ -37,7 +37,7 @@ def time_comparison(problem_sizes):
     plt.plot(problem_sizes, times_first_satisfy, label="First satisfy")
     plt.plot(problem_sizes, times_first_fail, label="First fail")
     plt.legend(loc='best')
-    plt.savefig("images/queens_heuristics.png")
+    plt.savefig("images/queens_bis_heuristics.png")
     plt.show()
 
 
@@ -47,7 +47,7 @@ def tree_comparison(problem_sizes):
     nodes_first_fail = []
 
     for i in problem_sizes:
-        path_file = "../data/queens/{0}Q.txt".format(i)
+        path_file = "../data/queens_bis/{0}Q.txt".format(i)
         f = open(path_file, "r")
 
         literal, clause = load(f)
@@ -68,10 +68,10 @@ def tree_comparison(problem_sizes):
     plt.plot(problem_sizes, nodes_first_satisfy, label="First satisfy")
     plt.plot(problem_sizes, nodes_first_fail, label="First fail")
     plt.legend(loc='best')
-    plt.savefig("images/queens_tree.png")
+    plt.savefig("images/queens_bis_tree.png")
     plt.show()
 
 
-size = [1, 2, 3, 4, 5]
+size = [1, 2, 3, 4, 5, 6]
 time_comparison(size)
 tree_comparison(size)

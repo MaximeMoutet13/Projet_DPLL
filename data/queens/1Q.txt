@@ -1,7 +1,3 @@
 0 
 
 0 
-column 
-line 
-diag 1 
-diag 2 

@@ -87,5 +87,5 @@ def queens_generator(n, f):
     f.close()
 
 
-f = "../../data/queens/5Q.txt"
-queens_generator(5, f)
+f = "../../data/queens/1Q.txt"
+queens_generator(1, f)
