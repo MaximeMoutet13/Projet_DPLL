@@ -10,21 +10,28 @@ def conjugate_literal(lit):
 
 def backtrack(literal, clause, literal_state, running_literal):
     go_up = True
+    next_lit = None
+
     while go_up:
         current_literal = running_literal.pop()
         no_current_literal = conjugate_literal(current_literal)
 
-        clause_state, clause_lenght = reconstruct(literal, clause, running_literal)
-
         if literal_state[no_current_literal] == 0:
-            return no_current_literal, clause_state, clause_lenght
+            go_up = False
+            next_lit = no_current_literal
 
         else:
             if len(running_literal) == 0:
-                return None, clause_state, clause_lenght
+                go_up = False
+                next_lit = None
+
             else:
                 literal_state[current_literal] = 0
                 literal_state[no_current_literal] = 0
+
+    clause_state, clause_lenght = reconstruct(literal, clause, running_literal)
+
+    return next_lit, clause_state, clause_lenght
 
 
 def reconstruct(literal, clause, pile):
@@ -35,7 +42,6 @@ def reconstruct(literal, clause, pile):
         update_clause(literal, cs, cl, v)
 
     return cs, cl
-
 
 # def backtrack(literal, literal_state, clause, clause_state, clause_lenght, running_literal):
 #     loop = True
@@ -81,13 +87,6 @@ def reconstruct(literal, clause, pile):
 #     else:
 #         new_literal_state[lit - 1] = literal_state[lit - 1]
 #     return new_literal_state, new_clause_state, new_clause_lenght
-
-
-
-
-
-
-
 
 
 # def reconstruct_better(literal, clause, literal_state, clause_state, clause_lenght, lit, running_literal):
