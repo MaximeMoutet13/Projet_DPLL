@@ -1,4 +1,4 @@
-from source.iterative.dpll_iterative_functions import update_clause, satisfy, is_satisfied, is_unsatisfactory
+from source.iterative.dpll_iterative_functions import update_clause, satisfy
 from source.model import load, initialisation, display
 from source.heuristics import literal_choice, no_heuristic, first_satisfy, first_fail
 from source.iterative.backtrack import backtrack
@@ -52,7 +52,7 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
             else:
                 lit = literal_choice(literal, literal_state, clause, clause_state, clause_lenght, heuristic)
 
-        return models
+        return models, i
 
 
 # path_file = "../data/pigeon_hole/7p6P.txt"
