@@ -12,7 +12,7 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
         return True
 
     elif [] in clause:
-        return False
+        return []
 
     else:
         models = []

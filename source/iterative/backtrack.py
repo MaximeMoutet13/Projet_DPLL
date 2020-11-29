@@ -1,11 +1,5 @@
 from source.iterative.dpll_iterative_functions import update_clause
-
-
-def conjugate_literal(lit):
-    if lit % 2 == 0:
-        return lit + 1
-    else:
-        return lit - 1
+from source.heuristics import conjugate_literal
 
 
 def backtrack(literal, clause, literal_state, running_literal):
