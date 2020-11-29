@@ -1,11 +1,18 @@
+def conjugate_literal(lit):
+    if lit % 2 == 0:
+        return lit + 1
+    else:
+        return lit - 1
+
+
 def mono_literal(literal_state, clause, clause_lenght):
     for i in range(len(clause)):
 
         if clause_lenght[i] == 1:
             for lit in clause[i]:
-                if lit % 2 == 0 and literal_state[lit] + literal_state[lit + 1] == 0:
-                    return lit
-                elif lit % 2 == 1 and literal_state[lit] + literal_state[lit - 1] == 0:
+                no_lit = conjugate_literal(lit)
+
+                if literal_state[lit] + literal_state[no_lit] == 0:
                     return lit
 
     return "No unitary clause"
@@ -18,9 +25,9 @@ def pure_literal(literal, literal_state, clause, clause_state):
         if clause_state[i] == 0:
 
             for lit in clause[i]:
-                if lit % 2 == 0 and literal_state[lit] + literal_state[lit + 1] == 0:
-                    lit_occurencies[lit] += 1
-                elif lit % 2 == 1 and literal_state[lit] + literal_state[lit - 1] == 0:
+                no_lit = conjugate_literal(lit)
+
+                if literal_state[lit] + literal_state[no_lit] == 0:
                     lit_occurencies[lit] += 1
 
     for i in range(int(len(literal) / 2)):
@@ -35,22 +42,20 @@ def pure_literal(literal, literal_state, clause, clause_state):
 
 
 def first_satisfy(literal, literal_state, clause, clause_state):
-    lit_occ = [[0, i] for i in range(len(literal))]
+    n = len(literal)
+    lit_occ = [[0, i] for i in range(n)]
 
     for i in range(len(clause)):
         if clause_state[i] == 0:
 
             for lit in clause[i]:
-                if lit % 2 == 0:
-                    if literal_state[lit] + literal_state[lit + 1] == 0:
-                        lit_occ[lit][0] += 1
-                else:
-                    if literal_state[lit] + literal_state[lit - 1] == 0:
-                        lit_occ[lit][0] += 1
+                no_lit = conjugate_literal(lit)
+                if literal_state[lit] + literal_state[no_lit] == 0:
+                    lit_occ[lit][0] += 1
 
     lit_occ.sort()
-    for j in range(len(literal) - 1, -1, -1):
-        lit = lit_occ[j][1]
+    for j in range(n):
+        lit = lit_occ[n - j - 1][1]
 
         if literal_state[lit] == 0:
             return lit
@@ -59,28 +64,25 @@ def first_satisfy(literal, literal_state, clause, clause_state):
 
 
 def first_fail(literal, literal_state, clause, clause_state):
-    lit_occ = [[0, i] for i in range(len(literal))]
+    n = len(literal)
+    lit_occ = [[0, i] for i in range(n)]
 
     for i in range(len(clause)):
         if clause_state[i] == 0:
 
             for lit in clause[i]:
-                if lit % 2 == 0:
-                    if literal_state[lit] + literal_state[lit + 1] == 0:
-                        lit_occ[lit][0] += 1
-                else:
-                    if literal_state[lit] + literal_state[lit - 1] == 0:
-                        lit_occ[lit][0] += 1
+                no_lit = conjugate_literal(lit)
+
+                if literal_state[lit] + literal_state[no_lit] == 0:
+                    lit_occ[lit][0] += 1
 
     lit_occ.sort()
-    for j in range(len(literal) - 1, -1, -1):
-        lit = lit_occ[j][1]
+    for j in range(n):
+        lit = lit_occ[n - j - 1][1]
+        no_lit = conjugate_literal(lit)
 
-        if lit % 2 == 0 and literal_state[lit + 1] == 0:
-            return lit + 1
-
-        elif lit % 2 == 1 and literal_state[lit - 1] == 0:
-            return lit - 1
+        if literal_state[no_lit] == 0:
+            return no_lit
 
     return "No first fail"
 

@@ -62,16 +62,15 @@ def initialisation(literal, clause):
 
 def count_models(literal, model):
     n = int(len(literal) / 2)
-    res = 0
 
-    for mod in model:
-        m = len(mod)
+    if model is True:
+        return 2 ** n
 
-        if m == n:
-            res += 1
-
-        else:
+    else:
+        res = 0
+        for mod in model:
+            m = len(mod)
             free_lit = n - m
             res += 2 ** free_lit
 
-    return res
+        return res

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from time import time
 
 from source.iterative.dpll_iterative import dpll
-from source.model import load
+from source.model import load, count_models
 from source.heuristics import no_heuristic, first_satisfy, first_fail
 
 
@@ -11,6 +11,10 @@ def time_comparison(problem_sizes):
     times_first_satisfy = []
     times_first_fail = []
 
+    nodes_no_heuristic = []
+    nodes_first_satisfy = []
+    nodes_first_fail = []
+
     for i in problem_sizes:
         path_file = "../data/queens_bis/{0}Q.txt".format(i)
         print(path_file)
@@ -18,16 +22,22 @@ def time_comparison(problem_sizes):
         literal, clause = load(f)
 
         start = time()
-        dpll(literal, clause, first_satisfy, find_all_solutions=True)
+        mod1, n1 = dpll(literal, clause, first_satisfy, find_all_solutions=True)
         times_first_satisfy.append(time() - start)
 
         start = time()
-        dpll(literal, clause, first_fail, find_all_solutions=True)
+        mod2, n2 = dpll(literal, clause, first_fail, find_all_solutions=True)
         times_first_fail.append(time() - start)
 
         start = time()
-        dpll(literal, clause, no_heuristic, find_all_solutions=True)
+        mod3, n3 = dpll(literal, clause, no_heuristic, find_all_solutions=True)
         times_no_heuristic.append(time() - start)
+
+        print("nb de mod:", count_models(literal, mod1))
+
+        nodes_first_satisfy.append(n1)
+        nodes_first_fail.append(n2)
+        nodes_no_heuristic.append(n3)
 
     plt.figure()
     plt.title("Dames: temps des différentes heuristiques")
@@ -39,26 +49,6 @@ def time_comparison(problem_sizes):
     plt.legend(loc='best')
     plt.savefig("images/queens_heuristics.png")
     plt.show()
-
-
-def tree_comparison(problem_sizes):
-    nodes_no_heuristic = []
-    nodes_first_satisfy = []
-    nodes_first_fail = []
-
-    for i in problem_sizes:
-        path_file = "../data/queens/{0}Q.txt".format(i)
-        f = open(path_file, "r")
-
-        literal, clause = load(f)
-
-        mod1, n1 = dpll(literal, clause, first_satisfy)
-        mod2, n2 = dpll(literal, clause, first_fail)
-        mode3, n3 = dpll(literal, clause, no_heuristic)
-
-        nodes_first_satisfy.append(n1)
-        nodes_first_fail.append(n2)
-        nodes_no_heuristic.append(n3)
 
     plt.figure()
     plt.title("Dames: taille des arbres")
@@ -72,6 +62,5 @@ def tree_comparison(problem_sizes):
     plt.show()
 
 
-size = [1, 2, 3, 4, 5]
+size = [1, 2, 3, 4, 5, 6, 7, 8]
 time_comparison(size)
-tree_comparison(size)
