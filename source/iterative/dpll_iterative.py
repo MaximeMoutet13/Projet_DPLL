@@ -56,12 +56,13 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
 
 
 if __name__ == "__main__":
-    path_file = "../data/queens/5Q.txt"
+    path_file = "../data/queens_bis/4Q.txt"
     f = open(path_file, "r")
 
     literal, clause = load(f)
 
     d = time()
-    mod, nodes = dpll(literal, clause, first_fail, find_all_solutions=True)
+    mod, nodes = dpll(literal, clause, first_satisfy, find_all_solutions=True)
     print("time:", time() - d)
     print("nombre de modeles:", count_models(literal, mod))
+    print("nombre de noeuds:", nodes)

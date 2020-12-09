@@ -41,50 +41,28 @@ def pure_literal(literal, literal_state, clause, clause_state):
     return "No pure literal"
 
 
-def first_satisfy(literal, literal_state, clause, clause_state):
+def freq(literal, literal_state, clause, clause_state):
     n = len(literal)
-    lit_occ = [[0, i] for i in range(n)]
+    lit_occ = [0 for i in range(n)]
 
     for i in range(len(clause)):
         if clause_state[i] == 0:
-
             for lit in clause[i]:
                 no_lit = conjugate_literal(lit)
                 if literal_state[lit] + literal_state[no_lit] == 0:
-                    lit_occ[lit][0] += 1
+                    lit_occ[lit] += 1
 
-    lit_occ.sort()
-    for j in range(n):
-        lit = lit_occ[n - j - 1][1]
+    return lit_occ
 
-        if literal_state[lit] == 0:
-            return lit
 
-    return "No first satisfy"
+def first_satisfy(literal, literal_state, clause, clause_state):
+    lit_occ = freq(literal, literal_state, clause, clause_state)
+    return lit_occ.index(max(lit_occ))
 
 
 def first_fail(literal, literal_state, clause, clause_state):
-    n = len(literal)
-    lit_occ = [[0, i] for i in range(n)]
-
-    for i in range(len(clause)):
-        if clause_state[i] == 0:
-
-            for lit in clause[i]:
-                no_lit = conjugate_literal(lit)
-
-                if literal_state[lit] + literal_state[no_lit] == 0:
-                    lit_occ[lit][0] += 1
-
-    lit_occ.sort()
-    for j in range(n):
-        lit = lit_occ[n - j - 1][1]
-        no_lit = conjugate_literal(lit)
-
-        if literal_state[no_lit] == 0:
-            return no_lit
-
-    return "No first fail"
+    lit = first_satisfy(literal, literal_state, clause, clause_state)
+    return conjugate_literal(lit)
 
 
 def no_heuristic(literal, literal_state, clause, clause_state):
