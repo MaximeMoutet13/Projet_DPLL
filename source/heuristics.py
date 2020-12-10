@@ -19,16 +19,7 @@ def mono_literal(literal_state, clause, clause_lenght):
 
 
 def pure_literal(literal, literal_state, clause, clause_state):
-    lit_occurencies = [0 for i in range(len(literal))]
-
-    for i in range(len(clause)):
-        if clause_state[i] == 0:
-
-            for lit in clause[i]:
-                no_lit = conjugate_literal(lit)
-
-                if literal_state[lit] + literal_state[no_lit] == 0:
-                    lit_occurencies[lit] += 1
+    lit_occurencies = freq(literal, literal_state, clause, clause_state)
 
     for i in range(int(len(literal) / 2)):
 
@@ -51,7 +42,6 @@ def freq(literal, literal_state, clause, clause_state):
                 no_lit = conjugate_literal(lit)
                 if literal_state[lit] + literal_state[no_lit] == 0:
                     lit_occ[lit] += 1
-
     return lit_occ
 
 
@@ -89,6 +79,8 @@ def mono_choice(literal, literal_state, clause, clause_state, clause_lenght):
 
 def literal_choice(literal, literal_state, clause, clause_state, clause_lenght, heuristic):
     lit = mono_choice(literal, literal_state, clause, clause_state, clause_lenght)
-    if not isinstance(lit, int):
-        lit = heuristic(literal, literal_state, clause, clause_state)
+    if isinstance(lit, int):
+        return lit
+
+    lit = heuristic(literal, literal_state, clause, clause_state)
     return lit
