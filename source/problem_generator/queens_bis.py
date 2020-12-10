@@ -53,5 +53,5 @@ def queens_bis_generator(n, f):
     f.close()
 
 
-f = "../../data/queens_bis/8Q.txt"
-queens_bis_generator(8, f)
+f = "../../data/queens_bis/14Q.txt"
+queens_bis_generator(14, f)
