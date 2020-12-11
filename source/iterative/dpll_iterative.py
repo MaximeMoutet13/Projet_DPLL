@@ -9,10 +9,10 @@ from time import time
 
 def dpll(literal, clause, heuristic, find_all_solutions=False):
     if len(clause) == 0:
-        return True
+        return True, 0
 
     elif [] in clause:
-        return []
+        return [], 0
 
     else:
         models = []
@@ -33,7 +33,7 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
                 models.append(copy(running_literal))
 
                 if not find_all_solutions:
-                    return models
+                    return models, i
 
                 else:
                     next_lit, clause_state, clause_lenght = backtrack(literal, clause, literal_state, running_literal)
@@ -56,13 +56,13 @@ def dpll(literal, clause, heuristic, find_all_solutions=False):
 
 
 if __name__ == "__main__":
-    path_file = "../data/queens_bis/4Q.txt"
+    path_file = "../data/queens_bis/6Q.txt"
     f = open(path_file, "r")
 
     literal, clause = load(f)
 
     d = time()
-    mod, nodes = dpll(literal, clause, first_satisfy, find_all_solutions=True)
+    mod, nodes = dpll(literal, clause, first_satisfy, find_all_solutions=False)
     print("time:", time() - d)
     print("nombre de modeles:", count_models(literal, mod))
     print("nombre de noeuds:", nodes)
